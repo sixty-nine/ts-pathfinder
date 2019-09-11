@@ -86,16 +86,7 @@ class Draw extends React.Component<DrawProps, DrawState> {
     };
 
     componentDidMount(): void {
-
         this.two.appendTo(this.myRef.current as HTMLElement);
-
-        this.grid.setCell(new Point(11, 10), -1);
-
-        this.grid.setCell(new Point(12, 11), -1);
-        this.grid.setCell(new Point(13, 11), -1);
-        this.grid.setCell(new Point(14, 11), -1);
-        this.grid.setCell(new Point(10, 11), -1);
-
         this.drawGrid(this.state.showLegend);
         this.drawBlocks(this.grid.grid);
     };
