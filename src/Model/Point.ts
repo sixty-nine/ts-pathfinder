@@ -13,10 +13,10 @@ class Point {
 
     public neighbours = (): Point[] => {
         const res: Point[] = [];
-        if (this.x > 0) res.push(new Point(this.x - 1, this.y));
-        if (this.x < 25) res.push(new Point(this.x + 1, this.y));
-        if (this.y > 0) res.push(new Point(this.x, this.y - 1));
-        if (this.y < 25) res.push(new Point(this.x, this.y + 1));
+        res.push(new Point(this.x - 1, this.y));
+        res.push(new Point(this.x + 1, this.y));
+        res.push(new Point(this.x, this.y - 1));
+        res.push(new Point(this.x, this.y + 1));
         return res;
     };
 }
