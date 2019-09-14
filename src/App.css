@@ -31,3 +31,35 @@
     transform: rotate(360deg);
   }
 }
+
+.menu {
+  position: fixed;
+  top: 50px;
+  right: 25px;
+  padding: 15px;
+  background-color: antiquewhite;
+  border-radius: 5px;
+  box-shadow: 13px 17px 31px -1px rgba(0,0,0,0.75);
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.btn {
+  color: #494949 !important;
+  text-transform: uppercase;
+  text-decoration: none;
+  background: #ffffff;
+  padding: 5px;
+  margin: 5px;
+  border: 2px solid #494949 !important;
+  display: inline-block;
+  transition: all 0.4s ease 0s;
+}
+
+.btn:hover {
+  color: #ffffff !important;
+  background: #f6b93b;
+  border-color: #f6b93b !important;
+  transition: all 0.4s ease 0s;
+}

@@ -32,14 +32,19 @@ class PathFinder {
 
         let iteration = 0;
 
+        console.groupCollapsed('Find path');
+        console.log('--- Recalculate');
+
         while (!queue.isEmpty()) {
             const next = queue.dequeue();
 
             if (!next) {
+                console.groupEnd();
                 throw new Error('No next cell to try');
             }
 
             if (iteration > this.maxIterations) {
+                console.groupEnd();
                 throw new Error('Too many iterations');
             }
 
@@ -63,6 +68,7 @@ class PathFinder {
             if (next.point.eq(this.goal)) {
                 console.log('Target found!');
                 // TODO
+                console.groupEnd();
                 return 'Found';
             }
 
@@ -75,7 +81,6 @@ class PathFinder {
                 }
             });
         }
-
     };
 }
 

@@ -34,6 +34,17 @@ class Grid {
         this._grid[p.x][p.y] = value
     ;
 
+    public load = (initialGrid: number[][]) =>
+        initialGrid.forEach((row: number[], x: number) =>
+            row.forEach((val: number, y: number) =>
+                x < this.width
+                && y < this.height
+                && this.setCell(new Point(x, y), val)
+            )
+        )
+    ;
+
+
 }
 
 export default Grid;
