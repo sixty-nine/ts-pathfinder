@@ -98,7 +98,7 @@ class Draw extends React.Component<DrawProps, DrawState> {
     private drawBlock = (x: number, y: number, color: string, nr: number = -1) => {
         const gs = this.gridSize;
         const hgs = this.gridSize / 2;
-        const rect = this.two.makeRectangle(hgs + x * gs, hgs + y * gs, gs, gs);
+        const rect = this.two.makeRectangle(hgs + x * gs, hgs + y * gs, gs - 1, gs - 1);
         rect.fill = color;
         rect.stroke = null;
         if (nr >= 0) {
