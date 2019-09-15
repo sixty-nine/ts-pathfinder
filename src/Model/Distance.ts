@@ -9,7 +9,7 @@ export const manhattanDistance: Distance =
 
 export const euclideanDistance: Distance =
     (a: Point, b: Point): number =>
-        Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2))
+        Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2)
 ;
 
 export const chebyshevDistance: Distance =
