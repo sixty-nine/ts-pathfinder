@@ -44,13 +44,15 @@ class PathFinder {
             const next = queue.dequeue();
 
             if (!next) {
+                console.error('No next cell to try');
                 console.groupEnd();
-                throw new Error('No next cell to try');
+                return;
             }
 
             if (iteration > this.maxIterations) {
+                console.error('Too many iterations');
                 console.groupEnd();
-                throw new Error('Too many iterations');
+                return;
             }
 
 
