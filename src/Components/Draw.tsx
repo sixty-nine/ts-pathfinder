@@ -52,7 +52,9 @@ class Draw extends React.Component<DrawProps, DrawState> {
     public findPath = () => {
         this.drawGrid(this.state.showLegend);
         this.drawBlocks(this.grid.grid);
+        console.time('calcPath');
         this.calcPath();
+        console.timeEnd('calcPath');
     };
 
     public setDistance = (dist: Distance.Distance) =>
