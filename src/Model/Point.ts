@@ -27,6 +27,8 @@ class Point {
         res.push(new Point(this.x, this.y + 1));
         return res;
     };
+
+    public toString = (): string => `[${this.x},${this.y}]`;
 }
 
 export default Point;

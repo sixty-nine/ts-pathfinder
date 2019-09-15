@@ -58,7 +58,7 @@ class Draw extends React.Component<DrawProps, DrawState> {
     };
 
     public setDistance = (dist: Distance.Distance) =>
-        this.setState({distance: dist,}, this.findPath);
+        this.setState({distance: dist,}, this.findPath)
     ;
 
     public setDiagAllowed = (isAllowed: boolean) =>
@@ -145,13 +145,12 @@ class Draw extends React.Component<DrawProps, DrawState> {
             return isOk;
         };
         const onNeighbour = (p: Point) => {
-            if (isAccessible(p)) {
-                setTimeout(() =>
-                    this.drawBlock(p.x, p.y, '#c7fcf4')
-                );
-            }
+            isAccessible(p) && setTimeout(() =>
+                this.drawBlock(p.x, p.y, '#c7fcf4')
+            );
         };
-        pf.findPath(S, onVisit, onNeighbour, this.state.diagAllowed);
+
+        return pf.findPath(S, onVisit, onNeighbour, this.state.diagAllowed);
     };
 
     private onClick = (e: any) => {

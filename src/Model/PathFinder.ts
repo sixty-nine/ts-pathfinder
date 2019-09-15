@@ -23,19 +23,28 @@ class PathFinder {
         visit: Visitor = nullVisitor,
         onNeighbour: (p: Point) => void,
         diagAllowed: boolean,
-    ) => {
-        const visited: Point[] = [];
+    ): Point[] | boolean => {
+        const cameFrom: { [key: string]: Point | null } = {};
+        const visited: string[] = [];
         const queue = new Queue([{
             dist: this.dist(start, this.goal),
             point: start,
         }]);
-        const alreadyVisited = (p: Point): boolean => -1 <
-            visited
-                .map((item: Point) => `${item.x},${item.y}`)
-                .indexOf(`${p.x},${p.y}`)
+        const alreadyVisited = (p: Point): boolean =>
+            -1 < visited.indexOf(p.toString())
         ;
+        const reconstructPath = (): Point[] => {
+            let cur: any = this.goal;
+            const path = [];
+            while (cur && cameFrom[cur.toString()]) {
+                path.push(cur);
+                cur = cameFrom[cur.toString()];
+            }
+            return path;
+        };
 
         let iteration = 0;
+        let previous: Point | null = null;
 
         console.groupCollapsed('Find path');
         console.log('--- Recalculate');
@@ -46,13 +55,16 @@ class PathFinder {
             if (!next) {
                 console.error('No next cell to try');
                 console.groupEnd();
-                return;
+                return false;
             }
+
+            cameFrom[next.point.toString()] = previous;
+            previous = next.point;
 
             if (iteration > this.maxIterations) {
                 console.error('Too many iterations');
                 console.groupEnd();
-                return;
+                return false;
             }
 
 
@@ -63,7 +75,7 @@ class PathFinder {
                 continue;
             }
 
-            visited.push(next.point);
+            visited.push(next.point.toString());
 
             const isNextAccessible = visit(iteration, next.point);
             if (!isNextAccessible) {
@@ -74,9 +86,9 @@ class PathFinder {
 
             if (next.point.eq(this.goal)) {
                 console.log('Target found!');
-                // TODO
                 console.groupEnd();
-                return 'Found';
+
+                return reconstructPath();
             }
 
             next.point.neighbours(diagAllowed).forEach(p => {
@@ -89,6 +101,8 @@ class PathFinder {
                 }
             });
         }
+
+        return false;
     };
 }
 
