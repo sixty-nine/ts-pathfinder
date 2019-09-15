@@ -3,7 +3,6 @@ import PathFinder from "../Model/PathFinder";
 import Point from "../Model/Point";
 import * as Distance from "../Model/Distance";
 import Grid from "../Model/Grid";
-import initialGrid from "../Model/InitialGrid";
 
 require('two.js');
 declare const Two: any;
@@ -38,10 +37,14 @@ class Draw extends React.Component<DrawProps, DrawState> {
         this.grid = new Grid(this.gridDimensions.width, this.gridDimensions.height);
     };
 
-    public save = () => {
-        console.group('JSON');
-        console.log(JSON.stringify(this.grid.grid));
-        console.groupEnd();
+    public save = (): string => JSON.stringify(this.grid.grid);
+
+    public load = (name: string, data: string) => {
+        if (data) {
+            console.log('Loading', name);
+            this.grid.load(JSON.parse(data));
+            this.findPath();
+        }
     };
 
     public findPath = () => {
@@ -110,14 +113,13 @@ class Draw extends React.Component<DrawProps, DrawState> {
 
     componentDidMount(): void {
         this.two.appendTo(this.myRef.current as HTMLElement);
-        this.grid.load(initialGrid);
         this.findPath();
     };
 
     private calcPath = () => {
         const { distance } = this.state;
-        const S: Point = new Point(10, 9);
-        const T: Point = new Point(15, 15);
+        const S: Point = new Point(1, 1);
+        const T: Point = new Point(this.gridDimensions.width - 1, this.gridDimensions.height - 1);
         const pf = new PathFinder(T, distance);
         pf.findPath(S, (iteration: number, p: Point): boolean => {
             const isAccessible =
@@ -126,7 +128,8 @@ class Draw extends React.Component<DrawProps, DrawState> {
                 && p.x < this.gridDimensions.width
                 && p.y < this.gridDimensions.height
                 && this.grid.getCell(p) >= 0;
-            const color = isAccessible ? 'green' : 'red';
+            const color = (S.eq(p)) ? 'green' :
+                    (T.eq(p) ? 'red' : 'lightgreen');
             if (isAccessible) {
                 this.drawBlock(p.x, p.y, color, iteration);
             }

@@ -1,22 +1,20 @@
 # Basic pathfinder in Typescript
 
+This is a little demo of path finding in TypeScript and React.
+
 ## Usage
 
- * Click on the grid: Set/unset a wal
- * Click on the empty block at (0, 0): Calculate path
+ * Click on the grid to toggle a wall
+ * Experiment and watch the console
+ * Change the distance calculation (Euclidean, Manhattan, Chebyshev)
+    * Why do the results differ?
+    * Can you design a layout where each of the distances finds the best path?
+    * What are the worst case for each distance?
+    * Is there a distance better than the other?
 
-## Experiment
-
- * Play with it...
- * Watch the console
- * Change the distance calculation in Draw.tsx:calcPath()
-     * Distance.euclideanDistance
-     * Distance.manhattanDistance
-     * Distance.chebyshevDistance
- * Play with it...
+With the "Save" button you can locally store layouts. The "Load" button
+allows to restore them.
  
-**There is and hard-coded limit of 25 in Point.ts for the max x and max y!**
-
 ## Development
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
