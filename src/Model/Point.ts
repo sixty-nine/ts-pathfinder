@@ -11,8 +11,16 @@ class Point {
         this.x === p.x && this.y === p.y
     ;
 
-    public neighbours = (): Point[] => {
+    public neighbours = (allowDiag: boolean = false): Point[] => {
         const res: Point[] = [];
+
+        if (allowDiag) {
+            res.push(new Point(this.x - 1, this.y - 1));
+            res.push(new Point(this.x - 1, this.y + 1));
+            res.push(new Point(this.x + 1, this.y - 1));
+            res.push(new Point(this.x + 1, this.y + 1));
+        }
+
         res.push(new Point(this.x - 1, this.y));
         res.push(new Point(this.x + 1, this.y));
         res.push(new Point(this.x, this.y - 1));

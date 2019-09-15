@@ -27,7 +27,6 @@ const App: React.FC = () => {
             .catch(err => console.log('Error', err));
     };
 
-
     return (
         <React.Fragment>
             <Draw ref={drawRef}/>
@@ -35,6 +34,10 @@ const App: React.FC = () => {
                 onSave={onSave}
                 onLoad={onLoad}
                 onChangeDist={(dist: Distance) => drawRef.current.setDistance(dist)}
+                onAllowDiag={(diagAllowed: boolean) => {
+                    console.log('yes', diagAllowed);
+                    drawRef.current.setDiagAllowed(diagAllowed);
+                }}
             />
         </React.Fragment>
     );

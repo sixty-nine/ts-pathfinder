@@ -11,12 +11,14 @@ type DrawProps = {};
 type DrawState = {
     showLegend: boolean;
     distance: Distance.Distance;
+    diagAllowed: boolean;
 };
 
 class Draw extends React.Component<DrawProps, DrawState> {
     readonly state: DrawState = {
         showLegend: true,
         distance: Distance.euclideanDistance,
+        diagAllowed: false,
     };
     readonly myRef: React.RefObject<HTMLDivElement>;
     readonly gridSize = 25;
@@ -53,11 +55,13 @@ class Draw extends React.Component<DrawProps, DrawState> {
         this.calcPath();
     };
 
-    public setDistance = (dist: Distance.Distance) => {
-        this.setState({
-            distance: dist,
-        }, this.findPath);
-    };
+    public setDistance = (dist: Distance.Distance) =>
+        this.setState({distance: dist,}, this.findPath);
+    ;
+
+    public setDiagAllowed = (isAllowed: boolean) =>
+        this.setState({ diagAllowed: isAllowed }, this.findPath)
+    ;
 
     private clearScreen = () => {
         const screen = this.two.makeRectangle(0, 0, this.two.width * 2, this.two.height * 2);
@@ -145,7 +149,7 @@ class Draw extends React.Component<DrawProps, DrawState> {
                 );
             }
         };
-        pf.findPath(S, onVisit, onNeighbour);
+        pf.findPath(S, onVisit, onNeighbour, this.state.diagAllowed);
     };
 
     private onClick = (e: any) => {

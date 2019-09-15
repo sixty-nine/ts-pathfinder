@@ -22,6 +22,7 @@ class PathFinder {
         start: Point,
         visit: Visitor = nullVisitor,
         onNeighbour: (p: Point) => void,
+        diagAllowed: boolean,
     ) => {
         const visited: Point[] = [];
         const queue = new Queue([{
@@ -76,7 +77,7 @@ class PathFinder {
                 return 'Found';
             }
 
-            next.point.neighbours().forEach(p => {
+            next.point.neighbours(diagAllowed).forEach(p => {
                 if (!alreadyVisited(p)) {
                     onNeighbour(p);
                     queue.enqueue({

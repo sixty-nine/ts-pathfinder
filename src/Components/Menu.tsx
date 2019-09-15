@@ -7,6 +7,7 @@ type MenuProps = {
     onSave: () => void;
     onLoad: (item: string) => void;
     onChangeDist: (dist: Distance.Distance) => void;
+    onAllowDiag: (isAllowed: boolean) => void;
 };
 
 const withDisabledButton = (button: HTMLElement, handler: () => void) => {
@@ -20,6 +21,7 @@ const withDisabledButton = (button: HTMLElement, handler: () => void) => {
 const Menu: React.FC<MenuProps> = (props) => {
     const [ files, setFiles ] = useState();
     const [ selected, setSelected ] = useState('');
+    const [ allowDiag, setAllowDiag ] = useState(false);
 
     keys().then((keys: any) => setFiles(keys));
 
@@ -41,6 +43,14 @@ const Menu: React.FC<MenuProps> = (props) => {
                 () => props.onChangeDist(Distance.manhattanDistance))}>
                 Manhattan dist
             </button>
+
+            <button className="btn" onClick={(e) => {
+                props.onAllowDiag(!allowDiag);
+                setAllowDiag(!allowDiag);
+            }}>
+                {allowDiag ? 'Disallow diagonal' : 'Allow diagonal'}
+            </button>
+
             <div>
                 <select className="input" onChange={(e) => setSelected(e.target.value)}>
                     <option value="">Select...</option>
