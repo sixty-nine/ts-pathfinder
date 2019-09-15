@@ -121,20 +121,31 @@ class Draw extends React.Component<DrawProps, DrawState> {
         const S: Point = new Point(1, 1);
         const T: Point = new Point(this.gridDimensions.width - 1, this.gridDimensions.height - 1);
         const pf = new PathFinder(T, distance);
-        pf.findPath(S, (iteration: number, p: Point): boolean => {
-            const isAccessible =
-                p.x > 0
-                && p.y > 0
-                && p.x < this.gridDimensions.width
-                && p.y < this.gridDimensions.height
-                && this.grid.getCell(p) >= 0;
+        const isAccessible = (p: Point) => p.x > 0
+            && p.y > 0
+            && p.x < this.gridDimensions.width
+            && p.y < this.gridDimensions.height
+            && this.grid.getCell(p) >= 0
+        ;
+        const onVisit = (iteration: number, p: Point): boolean => {
+            const isOk = isAccessible(p);
             const color = (S.eq(p)) ? 'green' :
-                    (T.eq(p) ? 'red' : 'lightgreen');
-            if (isAccessible) {
-                this.drawBlock(p.x, p.y, color, iteration);
+                (T.eq(p) ? 'red' : 'lightgreen');
+            if (isOk) {
+                setTimeout(() =>
+                    this.drawBlock(p.x, p.y, color, iteration)
+                );
             }
-            return isAccessible;
-        });
+            return isOk;
+        };
+        const onNeighbour = (p: Point) => {
+            if (isAccessible(p)) {
+                setTimeout(() =>
+                    this.drawBlock(p.x, p.y, '#c7fcf4')
+                );
+            }
+        };
+        pf.findPath(S, onVisit, onNeighbour);
     };
 
     private onClick = (e: any) => {

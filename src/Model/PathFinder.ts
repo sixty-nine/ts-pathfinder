@@ -18,7 +18,11 @@ class PathFinder {
         this.maxIterations = maxIterations;
     }
 
-    public findPath = (start: Point, visit: Visitor = nullVisitor) => {
+    public findPath = (
+        start: Point,
+        visit: Visitor = nullVisitor,
+        onNeighbour: (p: Point) => void,
+    ) => {
         const visited: Point[] = [];
         const queue = new Queue([{
             dist: this.dist(start, this.goal),
@@ -74,6 +78,7 @@ class PathFinder {
 
             next.point.neighbours().forEach(p => {
                 if (!alreadyVisited(p)) {
+                    onNeighbour(p);
                     queue.enqueue({
                         dist: this.dist(p, this.goal),
                         point: p,
