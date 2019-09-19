@@ -149,8 +149,28 @@ class Draw extends React.Component<DrawProps, DrawState> {
                 this.drawBlock(p.x, p.y, '#c7fcf4')
             );
         };
+        const drawPath = (path: Point[]) => {
+            const gs = this.gridSize;
+            const hgs = gs / 2;
+            for (let i = 1, len = path.length; i < len; i++) {
+                const prev = path[i - 1];
+                const cur = path[i];
+                const l = this.two.makeLine(hgs + prev.x * gs, hgs + prev.y * gs, hgs + cur.x * gs, hgs + cur.y * gs);
+                l.stroke = 'yellow';
+                l.linewidth = 3;
+            }
+        };
 
-        return pf.findPath(S, onVisit, onNeighbour, this.state.diagAllowed);
+        const path =  pf.findPath(S, onVisit, onNeighbour, this.state.diagAllowed);
+
+        if (Array.isArray(path)) {
+            console.log('Length', (path as Point[]).length);
+            setTimeout(() => drawPath(path));
+        } else {
+            console.log('Path not found');
+        }
+
+        return path;
     };
 
     private onClick = (e: any) => {

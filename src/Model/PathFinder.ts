@@ -34,17 +34,17 @@ class PathFinder {
             -1 < visited.indexOf(p.toString())
         ;
         const reconstructPath = (): Point[] => {
-            let cur: any = this.goal;
-            const path = [];
-            while (cur && cameFrom[cur.toString()]) {
+            let cur: Point | null = this.goal;
+            const path: Point[] = [];
+            while (cur && !cur.eq(start) && cameFrom[cur.toString()]) {
                 path.push(cur);
                 cur = cameFrom[cur.toString()];
             }
+            path.push(start);
             return path;
         };
 
         let iteration = 0;
-        let previous: Point | null = null;
 
         console.groupCollapsed('Find path');
         console.log('--- Recalculate');
@@ -57,9 +57,6 @@ class PathFinder {
                 console.groupEnd();
                 return false;
             }
-
-            cameFrom[next.point.toString()] = previous;
-            previous = next.point;
 
             if (iteration > this.maxIterations) {
                 console.error('Too many iterations');
@@ -82,6 +79,7 @@ class PathFinder {
                 console.log('Skipping - rejected by visitor');
                 continue;
             }
+
             iteration++;
 
             if (next.point.eq(this.goal)) {
@@ -93,6 +91,9 @@ class PathFinder {
 
             next.point.neighbours(diagAllowed).forEach(p => {
                 if (!alreadyVisited(p)) {
+                    if (!cameFrom[p.toString()]) {
+                        cameFrom[p.toString()] = next.point;
+                    }
                     onNeighbour(p);
                     queue.enqueue({
                         dist: this.dist(p, this.goal),
